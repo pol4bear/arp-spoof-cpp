@@ -95,9 +95,13 @@ void ArpSpoofer::AddSpoofRule(uint32_t sender_ip, uint32_t target_ip, bool relay
     SpoofInfo spoof_info = SpoofInfo(sender, target, relay);
     rules.push_back(spoof_info);
 
+    SendMaliciousResponse(*sender, ToIp(target->ip));
+
     if (is_duplex){
         spoof_info = SpoofInfo(target, sender, relay);
         rules.push_back(spoof_info);
+
+        SendMaliciousResponse(*target, ToIp(sender->ip));
     }
 }
 
